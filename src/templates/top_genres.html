@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Genres</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .genre-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .genre {
+            font-weight: bold;
+            margin: 15px 0;  /* Espacement vertical entre les genres */
+            font-size: 18px; /* Taille de police */
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px; /* Espacement au-dessus de la barre */
+        }
+        .progress {
+            height: 25px; /* Hauteur de la barre de progression */
+            background-color: #1DB954; /* Couleur Spotify */
+            width: 0; /* Sera mis à jour avec JS ou inline */
+            text-align: center;
+            line-height: 25px; /* Centrer le texte dans la barre */
+            color: white; /* Couleur du texte à l'intérieur de la barre */
+            font-size: 14px; /* Taille de police pour le texte à l'intérieur de la barre */
+        }
+        .time-range-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .time-range-buttons button {
+            background-color: #1DB954; /* Vert Spotify */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Effet de transition pour le survol */
+        }
+        .time-range-buttons button:hover {
+            background-color: #14833b; /* Une teinte plus foncée pour le survol */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Top Genres</h1>
+
+    <div class="time-range-buttons">
+        <a href="{{ url_for('top_genres', time_range='short_term') }}"><button>4 semaines</button></a>
+        <a href="{{ url_for('top_genres', time_range='medium_term') }}"><button>6 mois</button></a>
+        <a href="{{ url_for('top_genres', time_range='long_term') }}"><button>All Time</button></a>
+    </div>
+
+    <ul class="genre-list">
+        {% for rank, genre, count, percentage in top_genres %}
+        <li class="genre">{{ rank }}. {{ genre }}
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ percentage }}%;">{{ percentage | round(2) }}%</div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

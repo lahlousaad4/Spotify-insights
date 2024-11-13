@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Artistes et Chansons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212; /* Couleur de fond sombre */
+            color: #FFFFFF; /* Texte en blanc */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #1DB954; /* Couleur verte de Spotify */
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #282828; /* Couleur de fond pour la boîte */
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #404040;
+            padding-bottom: 10px;
+        }
+        .section:last-child {
+            border-bottom: none;
+        }
+        .section h2 {
+            margin: 0;
+            color: #1DB954; /* Couleur verte de Spotify */
+            cursor: pointer; /* Ajoute un curseur pointer pour indiquer que c'est cliquable */
+        }
+        .item-list {
+            display: none; /* Masque les listes au départ */
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        .item-list li {
+            padding: 5px 0;
+            font-size: 1em;
+            color: #B3B3B3; /* Couleur des éléments de liste */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mes Artistes et Chansons</h1>
+
+    <div class="section">
+        <h2 onclick="toggleList('artists-list')">Artistes</h2>
+        <ul id="artists-list" class="item-list">
+            {% for artist in top_artists %}
+            <li>{{ artist }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 onclick="toggleList('tracks-list')">Chansons</h2>
+        <ul id="tracks-list" class="item-list">
+            {% for track in top_tracks %}
+            <li>{{ track }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    function toggleList(listId) {
+        const list = document.getElementById(listId);
+        if (list.style.display === "none" || list.style.display === "") {
+            list.style.display = "block"; // Affiche la liste
+        } else {
+            list.style.display = "none"; // Masque la liste
+        }
+    }
+</script>
+
+</body>
+</html>

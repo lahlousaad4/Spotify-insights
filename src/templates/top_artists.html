@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Artists</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .artist-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap; /* Pour permettre plusieurs lignes */
+            justify-content: space-between; /* Espacement entre les éléments */
+        }
+        .artist {
+            flex: 1 1 45%; /* Deux artistes par ligne */
+            margin: 10px;
+            text-align: center; /* Centrer le texte */
+        }
+        img {
+            width: 100%; /* Largeur pleine */
+            height: auto; /* Hauteur automatique */
+            max-width: 200px; /* Largeur maximum de l'image */
+            border-radius: 5px; /* Coins arrondis */
+        }
+        .artist-name {
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .rank {
+            font-weight: bold;
+            color: #1DB954; /* Couleur Spotify */
+            margin-right: 5px; /* Espacement entre le rang et le nom */
+        }
+        a {
+            text-decoration: none;
+            color: #1DB954; /* Couleur Spotify */
+            font-weight: bold;
+        }
+        .time-range-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .time-range-buttons button {
+            background-color: #1DB954; /* Couleur de fond Spotify */
+            color: white; /* Couleur du texte */
+            border: none; /* Supprime la bordure */
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em; /* Taille de la police */
+            transition: background-color 0.3s, transform 0.3s; /* Transition pour l'effet au survol */
+        }
+        .time-range-buttons button:hover {
+            background-color: #1ed760; /* Couleur au survol */
+            transform: scale(1.05); /* Légère augmentation de taille au survol */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Top Artists</h1>
+
+    <div class="time-range-buttons">
+        <a href="{{ url_for('top_artists', time_range='short_term') }}"><button>4 semaines</button></a>
+        <a href="{{ url_for('top_artists', time_range='medium_term') }}"><button>6 mois</button></a>
+        <a href="{{ url_for('top_artists', time_range='long_term') }}"><button>All Time</button></a>
+    </div>
+
+    <ul class="artist-list">
+        {% for rank, artist in top_artists %}
+        <li class="artist">
+            <img src="{{ artist.image_url }}" alt="{{ artist.name }}">
+            <div class="artist-name">
+                {{ rank }}. {{ artist.name }} <!-- Affichage du classement suivi du nom -->
+            </div>
+            <a href="{{ artist.url }}" target="_blank">Écouter sur Spotify</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>

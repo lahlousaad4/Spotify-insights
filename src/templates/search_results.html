@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résultats de recherche Spotify</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1000px; /* Augmenté pour une plus grande largeur */
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .results-section {
+      margin-top: 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #1DB954;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 24px; /* Agrandi le titre */
+    }
+    .results-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .artist-item, .track-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px; /* Augmenté pour espacer les éléments */
+      background-color: #282828;
+      border-radius: 8px; /* Coins arrondis plus prononcés */
+      padding: 15px; /* Plus de padding pour un look aéré */
+    }
+    .artist-image, .track-image {
+      width: 100px; /* Agrandi pour les images */
+      height: 100px; /* Agrandi pour les images */
+      border-radius: 8px; /* Coins arrondis */
+      margin-right: 20px; /* Espacement à droite */
+    }
+    .artist-info, .track-info {
+      flex-grow: 1;
+    }
+    h3 {
+      margin: 0;
+      font-size: 20px; /* Agrandi le nom de l'artiste */
+    }
+    .info-link {
+      color: #ffffff; /* Texte en blanc pour le lien */
+      text-decoration: none; /* Supprime le soulignement */
+    }
+    .info-link:hover {
+      text-decoration: underline; /* Ajoute un soulignement au survol */
+    }
+    .play-button {
+      background-color: #1DB954;
+      color: #ffffff;
+      padding: 8px 12px; /* Plus de padding pour les boutons */
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .play-button:hover {
+      background-color: #1AAE4D;
+    }
+    .back-button {
+      display: block;
+      width: fit-content;
+      background-color: #1DB954; /* Couleur du bouton */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 20px auto; /* Centre le bouton */
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="/" class="back-button">Retour à l'accueil</a> <!-- Ajout du bouton -->
+
+  <h1>Résultats de recherche pour "{{ request.args.get('query') }}"</h1>
+
+  <div class="results-section">
+    <h2>Artistes</h2>
+    <ul class="results-list">
+      {% for artist in results['artists'] %}
+      <li class="artist-item">
+        <img src="{{ artist['image_url'] }}" alt="{{ artist['name'] }}" class="artist-image">
+        <div class="artist-info">
+          <h3><a href="{{ url_for('artist_details', artist_id=artist['id']) }}" class="info-link">{{ artist['name'] }}</a></h3> <!-- Nom de l'artiste cliquable en blanc -->
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h2>Chansons</h2>
+    <ul class="results-list">
+      {% for item in results['tracks'] %}
+      <li class="track-item">
+        <img src="{{ item['album_image_url'] }}" alt="{{ item['album_name'] }}" class="track-image">
+        <div class="track-info">
+          <h3>{{ item['name'] }}</h3>
+          <p>Artiste : <a href="{{ url_for('artist_details', artist_id=item['artist_id']) }}" class="info-link">{{ item['artist'] }}</a></p> <!-- Artiste cliquable en blanc -->
+          <p>Album : {{ item['album_name'] }}</p>
+          <p>Date de sortie : {{ item['release_date'] }}</p>
+          <p>Durée : {{ item['duration'] | round(0, 'ceil') }} secondes</p>
+          <a href="{{ item['url'] }}" class="play-button">Écouter</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+</body>
+</html>
