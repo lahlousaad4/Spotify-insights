@@ -1,4 +1,4 @@
-Spotify Flask Project
+#Spotify Flask Project
 
 A simple Flask project that allows you to retrieve and display information from your Spotify account, such as your most listened-to artists and tracks. This project uses the Spotify API to interact with your account and display information about the artists and songs you like.
 
